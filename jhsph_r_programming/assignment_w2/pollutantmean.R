@@ -12,6 +12,7 @@ pollutantmean <- function(directory, pollutant, id= 1:332){
         data_acc <- rbind(data_acc,data_pol)
     }
     mean_pol <- apply(data_acc,2,mean)
+    mean_pol[[1]]
 }
 
 
