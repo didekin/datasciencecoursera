@@ -7,9 +7,9 @@ SCC <- readRDS("Source_Classification_Code.rds")
 
 ## I assume that the following EI.Sector are related
 ## with coal combustion sources.
-"Fuel Comb - Comm/Institutional - Coal"
-"Fuel Comb - Electric Generation - Coal"
-"Fuel Comb - Industrial Boilers, ICEs - Coal"
+# "Fuel Comb - Comm/Institutional - Coal"
+# "Fuel Comb - Electric Generation - Coal"
+# "Fuel Comb - Industrial Boilers, ICEs - Coal"
 
 coal_v <- levels(SCC$EI.Sector)[c(13,18,23)]
 
