@@ -49,15 +49,17 @@ The variables included in the tidy data table are:
      "tBodyGyro-mean()-X"              "tBodyGyro-mean()-Y"         
      "tBodyGyro-mean()-Z"              "tBodyGyroJerk-mean()-X"     
      "tBodyGyroJerk-mean()-Y"          "tBodyGyroJerk-mean()-Z"     
-  "tBodyAccMag-mean()"                 "tGravityAccMag-mean()"      
+     "tBodyAccMag-mean()"                 "tGravityAccMag-mean()"      
      "tBodyAccJerkMag-mean()"          "tBodyGyroMag-mean()"        
      "tBodyGyroJerkMag-mean()"         "fBodyAcc-mean()-X"          
      "fBodyAcc-mean()-Y"               "fBodyAcc-mean()-Z"          
      "fBodyAccJerk-mean()-X"           "fBodyAccJerk-mean()-Y"      
      "fBodyAccJerk-mean()-Z"           "fBodyGyro-mean()-X"         
      "fBodyGyro-mean()-Y"              "fBodyGyro-mean()-Z"         
-     "fBodyAccMag-mean()"              "fBodyBodyAccJerkMag-mean()" 
-     "fBodyBodyGyroMag-mean()"         "fBodyBodyGyroJerkMag-mean()"
+     "fBodyAccMag-mean()"              
+     "fBodyBodyAccJerkMag-mean()" 
+     "fBodyBodyGyroMag-mean()"         
+     "fBodyBodyGyroJerkMag-mean()"
 
 4. mean_value: numeric value wiht the mean of the observations of each 
    variable in the previous list, over the different combinations of
