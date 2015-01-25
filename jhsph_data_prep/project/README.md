@@ -1,4 +1,5 @@
 The script run_analysis.R executes the following tasks:
+
 1. Download the project file.
 2. Unzip it.
 3. Create a data table wiht the activity labels.
