@@ -4,8 +4,12 @@ fileUrl <-
 download.file(fileUrl,dest="./data/gdp1.csv",method="curl")
 
 gdp2 <- read.csv(file="./data/gdp1.csv"
+<<<<<<< HEAD
                  ,header=F,skip=5
                  ,as.is=c(1,2,4,5)
+=======
+                 ,header=F,skip=5,as.is=c(1,2,4,5)
+>>>>>>> 196425d6a835ebfd8b9725a57d05db05ca3bf8c4
                  ,na.strings=c('""')
                  ,nrows=215,strip.white=T
                  ,skipNul=T
