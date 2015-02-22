@@ -1,0 +1,69 @@
+---
+title       : Course project
+subtitle    : Statistical Inference
+author      : Pedro Nevado
+---
+## Overview
+
+* Asymptotics is the term for the behavior of statistics as the sample size (or some other relevant quantity) limits to infinity (or some other relevant number)
+
+
+---
+
+## Exponential distribution and Central Limit Theorem
+
+### Simulations
+
+- Fortunately, for the sample mean there's a set of powerful results
+
+---
+
+### Sample mean versus theoretical mean
+
+- ff
+
+---
+
+### Sample variance versus theoretical variance
+
+- ff
+
+---
+
+### Normal distribution approximation
+
+- ff
+
+---
+
+## The ToothGrowth data
+
+### Summary
+
+- 
+---
+
+### Toothgrowth by supp and dose
+
+- 
+
+---
+
+### Conclusions
+
+- 
+
+---
+
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
