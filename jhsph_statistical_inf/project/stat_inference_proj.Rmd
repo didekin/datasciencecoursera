@@ -5,7 +5,9 @@ author      : Pedro Nevado
 ---
 ## Overview
 
-* Asymptotics is the term for the behavior of statistics as the sample size (or some other relevant quantity) limits to infinity (or some other relevant number)
+- In the first part of this report, I will generate a sample of one thousand means, extracted from 40 events samples of an exponential distribution. I will compare afterwards their actual sample distribution with the theoretical distribution, based on the Central Limit Theorem.
+
+- In the second part, I will test some hypothesis with the ToothGrowth data set.
 
 
 ---
@@ -14,56 +16,153 @@ author      : Pedro Nevado
 
 ### Simulations
 
-- Fortunately, for the sample mean there's a set of powerful results
+- To generate the 40 events samples, I run one thousand 
+simulations for each of them with a exponential distribution with 
+with a rate equal 0.2.
+- For each sample, I calculate its normalized mean. As a result, I have obtained the required one thousand sample normalized 
+means (x).
 
+```{r}
+rate <- 1/5
+x_rmean <- 1/rate
+x_rsd <- 1/rate
+nosim <- 1000
+size_samp <- 40
+
+mfunc <- function(x, n) sqrt(n) * (mean(x) - x_rmean) / x_rsd
+x = apply(
+        matrix(
+            rexp(nosim * size_samp,rate)
+            ,nosim
+        )
+        , 1, mfunc, size_samp
+    )
+```
 ---
 
-### Sample mean versus theoretical mean
+### Sample mean and variance versus theoretical mean and variance
 
-- ff
+I calculate the mean and the variance of the sample:
 
----
+    x_mu = -0.0338371  
+    x_var = 1.008497
 
-### Sample variance versus theoretical variance
+```{r}
+x_mu <- mean(x)
+x_var <- sd(x)^2
+```
+The values are pretty near the theoretical values for the mean and variance of a standardized normal distribution: 0 and 1, respectively.
 
-- ff
+The following histogram shows the distribution of the different values obtained in the sample. The blue line points to the mean of the sample, very close to 0.
 
+
+````{r echo=FALSE}
+hist(x,breaks=40,main="Histogram of simulated normalized sample
+     means")
+abline(v=x_mu,col="blue",lty=1,lwd=3)
+
+````
 ---
 
 ### Normal distribution approximation
 
-- ff
+Below, a density histogram show the distribution of the sample of means and an estimation of a normal curve based on a sample of a hundred thousand simulated values. In red, the estimated mean for the simulated normal distribution.
+
+````{r echo=FALSE}
+hist(x,breaks=40,prob=T,main="Histogram of simulated normalized
+     sample means and density estimate")
+lines(density(rnorm(100000,0,1)),col="red",lwd=3)
+abline(v=0,col="red",lty=2,lwd=3)
+````
+
+It can be seen that the distribution of the sample means follows closely the bell shape of the simulated normal, a bit skewed towards the right.
+
+A QQ plot against a theoretical normal distribution in the abscissa, with the red line representing the qqline, we see again the almost normality of the sample means, with the major discrepancies in the tails, specially in the right one.
+
+````{r}
+qqnorm(x,main="QQPlot of the simulated sample means")
+qqline(x,col="red",lwd=2)
+````
+
 
 ---
 
 ## The ToothGrowth data
 
-### Summary
+### Introduction
 
-- 
+The study tried to measure the effect, in the lentgh of the teeth of each of 10 guinea pigs, of administering three different levels of Vitamin C with two different delivery methods.
+
+The ToothGrowth data set is a data frame with 60 observations,
+corresponding to the 10 pigs subject to each of the 6 combinations of level and method, and 3 variables:
+
+- 'len': numeric tooth length.
+- 'supp': factor with type of delivery method (orange juice / ascorbic acid) of the dose of Vitamin C. Possible values: OJ,VC.
+- 'dose': numeric dose in miligrams. Possible values: 0.5,1,2.
+
+Calculating the summary statistics of the tooth length in the three dose groups, there seems to be a posite relation between both variables:
+
+````{r echo=FALSE}
+data(ToothGrowth)
+ToothGrowth$dosefactor <- factor(ToothGrowth$dose)
+with(ToothGrowth, tapply(len,dosefactor,summary))
+````
+
+Something similar happens with the length for the two different delivery methods:
+
+````{r echo=FALSE}
+with(ToothGrowth, tapply(len,supp,summary))
+````
 ---
 
 ### Toothgrowth by supp and dose
 
-- 
+Since the design of the experiment factorize the different combinations of dose and delivery method, we rule out the possibility that the positive relations between len and dose, on one side, and len and supp, in the other, can be the result of an interaction between both variables (dose and supp).
 
+We center out attention, therefore, in estimating the differences of length by dose and delivery method.
+
+Here are the means of length by dose and supp:
+
+
+````{r echo=FALSE}
+with(ToothGrowth, tapply(len,dosefactor,mean))
+`````
+--
+````{r echo=FALSE}
+with(ToothGrowth, tapply(len,supp,mean))
+```
+
+We assume in the following t-tests that the t-distribution usual assumptions apply to the ToothGrowth data, such as that the urderlying variables are approximately i.i.d. normal, tooth length in our case, in the absence of supp and dose differences.
+
+We will test the effect of differences in dose on the difference of the sample means of the tooth length, for each of the groups. We will assume unequal variances in the groups.
+
+The first row contains the lower and upper bounds of the one tail 95% confidence interval for the difference of the means of group '.5' against '1'. The second row contains the same magnitudes for the difference of the means of group '1' against group '2'. 
+
+````{r echo=FALSE}
+doseOneTwo <- subset(ToothGrowth,dose %in% c(0.5,1))
+doseTwoThree <- subset(ToothGrowth,dose %in% c(1,2))
+rbind(
+t.test(len ~ dose,paired=F,var.equal = F,data=doseOneTwo)$conf,
+t.test(len ~ dose,paired=F,var.equal = F,data=doseTwoThree)$conf
+)
+````
+
+The same results for the difference in the sample means of the length for the two groups with different delivery method.
+
+````{r echo=FALSE}
+t.test(len ~ supp,paired=F,var.equal = F,data=ToothGrowth)$conf
+````
+
+There seems to be not much difference, in the result of the test, if we assume equality of variance in both groups.
+
+````{r echo=FALSE}
+t.test(len ~ supp,paired=F,var.equal =T,data=ToothGrowth)$conf
+````
 ---
 
 ### Conclusions
 
-- 
+- With a one tail 95% confidence interval, we would reject the equality of the tooth length means for the groups with different doses. It seems to be a positive relation between dose and length.
+- However, with the same conditions, we would not reject the null hypothesis for the difference of the length means in groups with different delivery methods.
 
 ---
-
-
-```{r}
-summary(cars)
-```
-
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

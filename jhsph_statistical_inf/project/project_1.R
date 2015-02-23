@@ -23,9 +23,8 @@ x = apply(
 # We calculate the variance of the sample mean distribution:
 x_mu <- mean(x)
 x_mu
-x_std <- sd(x)
-var_x <- (x_std)^2
-var_x
+x_var <- sd(x)^2
+x_var
 
 # Histogram with frequencies.
 hist(x,breaks=40,main="Histogram of simulated normalized sample
